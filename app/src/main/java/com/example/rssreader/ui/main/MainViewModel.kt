@@ -1,4 +1,4 @@
-package com.example.rssreader.ui
+package com.example.rssreader.ui.main
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -18,7 +18,7 @@ class MainViewModel @Inject constructor(private val articleRepository: ArticleRe
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ result ->
-                Log.d("VNNEWS", result.channel!!.item!!.size.toString())
+                liveData.value = result.channel!!.item
             }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
         launchDisposable(disposable)
     }

@@ -2,7 +2,7 @@ package com.example.rssreader.utils.di.modules
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.rssreader.ui.MainViewModel
+import com.example.rssreader.ui.main.MainViewModel
 import com.example.rssreader.utils.di.ViewModelFactory
 import com.example.rssreader.utils.di.ViewModelKey
 import dagger.Binds
