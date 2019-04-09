@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">RssReader</string>
+    <string name="home">Home</string>
+    <string name="news">News</string>
+    <string name="world">World</string>
+    <string name="business">Business</string>
+    <string name="startup">Startup</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="logout">Return</string>
 </resources>

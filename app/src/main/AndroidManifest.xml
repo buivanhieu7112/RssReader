@@ -27,6 +27,9 @@
         <activity android:name=".ui.main.MainActivity">
 
         </activity>
+        <activity android:name=".ui.main2.Main2Activity">
+
+        </activity>
     </application>
 
 </manifest>

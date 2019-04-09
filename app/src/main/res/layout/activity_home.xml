@@ -5,9 +5,10 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.HomeActivity">
+        tools:context=".ui.home.HomeActivity"
+        android:background="@drawable/bg_home"
+>
     <ImageView
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintWidth_percent="0.5"
             android:src="@drawable/logovnexpress"
             app:layout_constraintStart_toStartOf="parent"
@@ -19,7 +20,6 @@
             android:layout_height="0dp"/>
 
     <ImageView
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintWidth_percent="0.5"
             android:src="@drawable/logo24h"
             android:scaleType="centerCrop"

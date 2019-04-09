@@ -1,4 +1,4 @@
-package com.example.rssreader.ui.main
+package com.example.rssreader.ui.main2
 
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
@@ -8,10 +8,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rssreader.R
 import com.example.rssreader.base.BaseActivity
+import com.example.rssreader.ui.main.ArticleAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
-    private lateinit var viewModel: MainViewModel
+class Main2Activity : BaseActivity() {
+    private lateinit var viewModel: Main2ViewModel
     private var articleAdapter = ArticleAdapter()
 
     override fun setUpView() {
@@ -72,13 +73,18 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    private fun addMenuNavigation()
+    {
+       navigationView.menu.clear()
+    }
+
     override fun bindView() {
         initData()
         subscribeUI()
     }
 
     private fun initData() {
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(Main2ViewModel::class.java)
         viewModel.getHomeArticles()
         recyclerView.adapter = articleAdapter
         val dividerItemDecoration = DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL)

@@ -1,23 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/home"
-        android:icon="@drawable/ic_home"
-        android:title="Home" />
-    <item
-        android:id="@+id/news"
-        android:icon="@drawable/ic_news"
-        android:title="News" />
-    <item
-        android:id="@+id/world"
-        android:icon="@drawable/ic_world"
-        android:title="World" />
-    <item
-        android:id="@+id/business"
-        android:icon="@drawable/ic_business"
-        android:title="Business" />
-    <item
-        android:id="@+id/startup"
-        android:icon="@drawable/ic_startup"
-        android:title="Startup" />
+    <group
+        android:id="@+id/groupCategory"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:icon="@drawable/ic_home"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/news"
+            android:icon="@drawable/ic_news"
+            android:title="@string/news" />
+        <item
+            android:id="@+id/world"
+            android:icon="@drawable/ic_world"
+            android:title="@string/world" />
+        <item
+            android:id="@+id/business"
+            android:icon="@drawable/ic_business"
+            android:title="@string/business" />
+        <item
+            android:id="@+id/startup"
+            android:icon="@drawable/ic_startup"
+            android:title="@string/startup" />
+        <item
+            android:id="@+id/entertainment"
+            android:icon="@drawable/ic_entertainment"
+            android:title="@string/entertainment" />
+    </group>
+    <group
+        android:id="@+id/groupLogOut"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_logout"
+            android:title="@string/logout" />
+    </group>
 </menu>

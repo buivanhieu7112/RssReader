@@ -1,4 +1,4 @@
-package com.example.rssreader.ui.main
+package com.example.rssreader.ui.main2
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -9,12 +9,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(private val articleRepository: ArticleRepository) : BaseViewModel() {
+class Main2ViewModel @Inject constructor(private val articleRepository: ArticleRepository): BaseViewModel(){
     var liveData = MutableLiveData<MutableList<Article>>()
 
     fun getHomeArticles() {
         launchDisposable(
-            articleRepository.getHomeArticles()
+            articleRepository.getHomeArticles24h()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
@@ -25,7 +25,7 @@ class MainViewModel @Inject constructor(private val articleRepository: ArticleRe
 
     fun getNewsArticles() {
         launchDisposable(
-            articleRepository.getNewsArticles()
+            articleRepository.getNewsArticles24h()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
@@ -36,7 +36,7 @@ class MainViewModel @Inject constructor(private val articleRepository: ArticleRe
 
     fun getWorldArticles() {
         launchDisposable(
-            articleRepository.getWorldArticles()
+            articleRepository.getWorldArticles24h()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
@@ -47,7 +47,7 @@ class MainViewModel @Inject constructor(private val articleRepository: ArticleRe
 
     fun getBusinessArticles() {
         launchDisposable(
-            articleRepository.getBusinessArticles()
+            articleRepository.getBusinessArticles24h()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
@@ -58,7 +58,7 @@ class MainViewModel @Inject constructor(private val articleRepository: ArticleRe
 
     fun getStartUpArticles() {
         launchDisposable(
-            articleRepository.getStartUpArticles()
+            articleRepository.getStartUpArticles24h()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
@@ -69,7 +69,7 @@ class MainViewModel @Inject constructor(private val articleRepository: ArticleRe
 
     fun getEntertainmentArticles() {
         launchDisposable(
-            articleRepository.getEntertainmentArticles()
+            articleRepository.getEntertainmentArticles24h()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
