@@ -1,5 +1,6 @@
 package com.example.rssreader.ui.main
 
+import android.content.Intent
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
@@ -8,11 +9,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rssreader.R
 import com.example.rssreader.base.BaseActivity
+import com.example.rssreader.data.source.model.Article
+import com.example.rssreader.ui.WebView
+import com.example.rssreader.utils.ItemClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), ItemClickListener {
     private lateinit var viewModel: MainViewModel
-    private var articleAdapter = ArticleAdapter()
+    private var articleAdapter = ArticleAdapter(this)
 
     override fun setUpView() {
         setContentView(R.layout.activity_main)
@@ -94,5 +98,11 @@ class MainActivity : BaseActivity() {
             android.R.id.home -> drawerLayout.openDrawer(GravityCompat.START)
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onItemClicked(article: Article) {
+        val intent = Intent(this, WebView::class.java)
+        intent.putExtra("KEY_ARTICLE",article.link)
+        startActivity(intent)
     }
 }
