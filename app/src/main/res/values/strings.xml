@@ -7,4 +7,5 @@
     <string name="startup">Startup</string>
     <string name="entertainment">Entertainment</string>
     <string name="logout">Return</string>
+    <string name="news_offline">Offline news</string>
 </resources>

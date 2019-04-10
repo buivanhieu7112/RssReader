@@ -12,7 +12,7 @@
         android:id="@+id/textViewHeaderTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/background_light"
+        android:textColor="#e5f2e5"
         android:layout_margin="@dimen/dp_15"
         android:text="Rss News Category"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"

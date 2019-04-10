@@ -29,6 +29,14 @@
             android:title="@string/entertainment" />
     </group>
     <group
+        android:id="@+id/groupOffline"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/offline"
+            android:icon="@drawable/ic_news_off"
+            android:title="@string/news_offline" />
+    </group>
+    <group
         android:id="@+id/groupLogOut"
         android:checkableBehavior="single">
         <item

@@ -12,11 +12,12 @@ import com.example.rssreader.base.BaseActivity
 import com.example.rssreader.data.source.model.Article
 import com.example.rssreader.ui.WebView
 import com.example.rssreader.utils.ItemClickListener
+import com.example.rssreader.utils.ItemContextMenuClickListener
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity(), ItemClickListener {
+class MainActivity : BaseActivity(), ItemClickListener, ItemContextMenuClickListener {
     private lateinit var viewModel: MainViewModel
-    private var articleAdapter = ArticleAdapter(this)
+    private var articleAdapter = ArticleAdapter(this, this)
 
     override fun setUpView() {
         setContentView(R.layout.activity_main)
@@ -68,6 +69,11 @@ class MainActivity : BaseActivity(), ItemClickListener {
                     toolbar.title = getString(R.string.entertainment)
                     drawerLayout.closeDrawers()
                 }
+                R.id.offline -> {
+                    viewModel.getLocalArticles()
+                    toolbar.title = getString(R.string.news_offline)
+                    drawerLayout.closeDrawers()
+                }
                 R.id.logout -> {
                     finish()
                 }
@@ -104,5 +110,9 @@ class MainActivity : BaseActivity(), ItemClickListener {
         val intent = Intent(this, WebView::class.java)
         intent.putExtra("KEY_ARTICLE",article.link)
         startActivity(intent)
+    }
+
+    override fun onItemContextMenuClick(article: Article) {
+        viewModel.saveArticle(article)
     }
 }
