@@ -1,6 +1,7 @@
 package com.example.rssreader.ui.main
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.rssreader.base.BaseViewModel
 import com.example.rssreader.data.source.ArticleRepository
@@ -16,98 +17,100 @@ class MainViewModel @Inject constructor(private val articleRepository: ArticleRe
 
     fun getHomeArticles() {
         launchDisposable(
-            articleRepository.getHomeArticles()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ result ->
-                    liveData.value = result.channel!!.item
-                }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
+                articleRepository.getHomeArticles()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ result ->
+                            liveData.value = result.channel!!.item
+                        }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
         )
     }
 
     fun getNewsArticles() {
         launchDisposable(
-            articleRepository.getNewsArticles()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ result ->
-                    liveData.value = result.channel!!.item
-                }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
+                articleRepository.getNewsArticles()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ result ->
+                            liveData.value = result.channel!!.item
+                        }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
         )
     }
 
     fun getWorldArticles() {
         launchDisposable(
-            articleRepository.getWorldArticles()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ result ->
-                    liveData.value = result.channel!!.item
-                }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
+                articleRepository.getWorldArticles()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ result ->
+                            liveData.value = result.channel!!.item
+                        }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
         )
     }
 
     fun getBusinessArticles() {
         launchDisposable(
-            articleRepository.getBusinessArticles()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ result ->
-                    liveData.value = result.channel!!.item
-                }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
+                articleRepository.getBusinessArticles()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ result ->
+                            liveData.value = result.channel!!.item
+                        }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
         )
     }
 
     fun getStartUpArticles() {
         launchDisposable(
-            articleRepository.getStartUpArticles()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ result ->
-                    liveData.value = result.channel!!.item
-                }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
+                articleRepository.getStartUpArticles()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ result ->
+                            liveData.value = result.channel!!.item
+                        }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
         )
     }
 
     fun getEntertainmentArticles() {
         launchDisposable(
-            articleRepository.getEntertainmentArticles()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ result ->
-                    liveData.value = result.channel!!.item
-                }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
+                articleRepository.getEntertainmentArticles()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ result ->
+                            liveData.value = result.channel!!.item
+                        }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
         )
     }
 
     fun saveArticle(vararg article: Article) {
         articleRepository.saveArticle(*article)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : CompletableObserver {
-                override fun onComplete() {
-                    Log.d("SUCCESS", "INSERT ARTICLE SUCCESSFUL")
-                }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : CompletableObserver {
+                    override fun onComplete() {
+                        Log.d("SUCCESS", "INSERT ARTICLE SUCCESSFUL")
+                    }
 
-                override fun onSubscribe(d: Disposable) {
-                    launchDisposable(d)
-                }
+                    override fun onSubscribe(d: Disposable) {
+                        launchDisposable(d)
+                    }
 
-                override fun onError(e: Throwable) {
-                    Log.d("ERROR", e.localizedMessage)
-                }
+                    override fun onError(e: Throwable) {
+                        Log.d("ERROR", e.localizedMessage)
+                    }
 
-            })
+                })
     }
 
     fun getLocalArticles() {
         launchDisposable(
-            articleRepository.getLocalArticles()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ result -> liveData.value = result }, { error ->
-                    Log.d("ERROR", error.localizedMessage)
-                })
+                articleRepository.getLocalArticles()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ result ->
+                            liveData.value = result
+                        }, { error ->
+                            Log.d("ERROR", error.localizedMessage)
+                        })
         )
     }
 }

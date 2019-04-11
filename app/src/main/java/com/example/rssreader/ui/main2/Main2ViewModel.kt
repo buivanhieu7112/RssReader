@@ -87,6 +87,7 @@ class Main2ViewModel @Inject constructor(private val articleRepository: ArticleR
             .subscribe(object : CompletableObserver {
                 override fun onComplete() {
                     Log.d("SUCCESS", "INSERT ARTICLE SUCCESSFUL")
+                    Log.d("WEB_OFF",article[0].guid)
                 }
 
                 override fun onSubscribe(d: Disposable) {

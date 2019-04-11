@@ -22,12 +22,10 @@ class HomeActivity : BaseActivity() {
 
     private fun handleItemClick() {
         imageVnExpress.setOnClickListener {
-            Toast.makeText(this, "vnexpress", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
         image24h.setOnClickListener {
-            Toast.makeText(this, "24h", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, Main2Activity::class.java)
             startActivity(intent)
         }
