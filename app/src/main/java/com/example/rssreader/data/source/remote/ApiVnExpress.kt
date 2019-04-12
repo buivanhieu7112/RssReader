@@ -14,7 +14,7 @@ interface ApiVnExpress {
     @get:GET("/rss/the-gioi.rss")
     var world: Flowable<Feed>
 
-    @get:GET("/rss/kinh-doanh.rss")
+    @get:GET("/rss/khoa-hoc.rss")
     var business: Flowable<Feed>
 
     @get:GET("/rss/startup.rss")

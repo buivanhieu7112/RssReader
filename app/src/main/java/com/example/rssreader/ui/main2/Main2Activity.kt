@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
-import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.core.view.GravityCompat
@@ -15,13 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rssreader.R
 import com.example.rssreader.base.BaseActivity
 import com.example.rssreader.data.source.model.Article
-import com.example.rssreader.ui.WebView
+import com.example.rssreader.ui.WebView24h
 import com.example.rssreader.ui.main.ArticleAdapter
 import com.example.rssreader.utils.ItemClickListener
 import com.example.rssreader.utils.ItemContextMenuClickListener
 import com.google.android.material.snackbar.Snackbar
 import com.koushikdutta.ion.Ion
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.*
+
 
 class Main2Activity : BaseActivity(), ItemClickListener, ItemContextMenuClickListener {
     private var isOnline = true
@@ -93,9 +95,9 @@ class Main2Activity : BaseActivity(), ItemClickListener, ItemContextMenuClickLis
                     drawerLayout.closeDrawers()
                 }
                 R.id.offline -> {
-                    isOnline = false
                     itemOffline = true
                     checkInternetConnection()
+                    isOnline = false
                     imageViewOffline.visibility = View.GONE
                     recyclerView.visibility = View.VISIBLE
                     viewModel.getLocalArticles()
@@ -135,19 +137,19 @@ class Main2Activity : BaseActivity(), ItemClickListener, ItemContextMenuClickLis
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
+        when (item?.itemId) {
             android.R.id.home -> drawerLayout.openDrawer(GravityCompat.START)
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onItemClicked(article: Article) {
-        val intent = Intent(this, WebView::class.java)
-        val extras = Bundle()
-        extras.putString("KEY_ARTICLE", article.link)
-        extras.putString("KEY_ARTICLE_OFFLINE", article.guid)
-        extras.putBoolean("STATUS", isOnline)
-        intent.putExtra("BUNDLE", extras)
+        val intent = Intent(this, WebView24h::class.java)
+        intent.putExtra("ONLINE", isOnline)
+        intent.putExtra("ITEM_OFFLINE", itemOffline)
+        intent.putExtra("KEY_ARTICLE", article.link)
+        intent.putExtra("KEY_ARTICLE_OFFLINE", article.guid)
+        intent.putExtra("KEY_ARTICLE_ID", article.id)
         startActivity(intent)
     }
 
@@ -157,14 +159,29 @@ class Main2Activity : BaseActivity(), ItemClickListener, ItemContextMenuClickLis
 
     private fun saveArticle(article: Article) {
         Ion.with(applicationContext)
-                .load(article.link).asString()
-                .setCallback { e, result ->
-                    // save web content html
-                    article.guid = result
-                    // save to db
-                    viewModel.saveArticle(article)
-                }
+            .load(article.link).asString()
+            .setCallback { e, result ->
+                // save web content html
+//                article.guid = result.substring(34)
+                article.guid = createFileSaveWeb(this, "${article.id}.html", result.substring(34))
+                // save to db
+                viewModel.saveArticle(article)
+            }
     }
+
+    // save web content html to file
+    private fun createFileSaveWeb(context: Context, fileName: String, fileData: String): String {
+        val file = File(filesDir, fileName)
+        val fileOutputStream = FileOutputStream(file)
+        val outputStreamWriter = OutputStreamWriter(fileOutputStream)
+        val bufferedWriter = BufferedWriter(outputStreamWriter)
+        bufferedWriter.write(fileData)
+        bufferedWriter.flush()
+        val path = context.filesDir
+        Log.d("FILE", "$path/$fileName")
+        return "$path/$fileName"
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -182,12 +199,15 @@ class Main2Activity : BaseActivity(), ItemClickListener, ItemContextMenuClickLis
             imageViewOffline.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
         } else {
+            isOnline = false
             if (!itemOffline) {
                 Snackbar.make(layoutMain, "No connection. You're offline", Snackbar.LENGTH_SHORT).show()
+                recyclerView.visibility = View.GONE
+                imageViewOffline.visibility = View.VISIBLE
+            } else {
+                recyclerView.visibility = View.VISIBLE
+                imageViewOffline.visibility = View.GONE
             }
-            isOnline = false
-            imageViewOffline.visibility = View.VISIBLE
-            recyclerView.visibility = View.GONE
         }
     }
 }

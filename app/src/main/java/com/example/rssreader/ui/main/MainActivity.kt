@@ -146,6 +146,7 @@ class MainActivity : BaseActivity(), ItemClickListener, ItemContextMenuClickList
         extras.putString("KEY_ARTICLE", article.link)
         extras.putString("KEY_ARTICLE_OFFLINE", article.guid)
         extras.putBoolean("STATUS", isOnline)
+        extras.putBoolean("ITEM_OFFLINE", itemOffline)
         intent.putExtra("BUNDLE", extras)
         startActivity(intent)
     }
@@ -156,13 +157,13 @@ class MainActivity : BaseActivity(), ItemClickListener, ItemContextMenuClickList
 
     private fun saveArticle(article: Article) {
         Ion.with(applicationContext)
-                .load(article.link).asString()
-                .setCallback { e, result ->
-                    // save web content html
-                    article.guid = result
-                    // save to db
-                    viewModel.saveArticle(article)
-                }
+            .load(article.link).asString()
+            .setCallback { e, result ->
+                // save web content html
+                article.guid = result
+                // save to db
+                viewModel.saveArticle(article)
+            }
     }
 
     override fun onResume() {
@@ -183,10 +184,13 @@ class MainActivity : BaseActivity(), ItemClickListener, ItemContextMenuClickList
         } else {
             if (!itemOffline) {
                 Snackbar.make(layoutMain, "No connection. You're offline", Snackbar.LENGTH_SHORT).show()
+                recyclerView.visibility = View.GONE
+                imageViewOffline.visibility = View.VISIBLE
+            } else {
+                imageViewOffline.visibility = View.GONE
+                recyclerView.visibility = View.VISIBLE
             }
             isOnline = false
-            imageViewOffline.visibility = View.VISIBLE
-            recyclerView.visibility = View.GONE
         }
     }
 }

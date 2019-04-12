@@ -22,6 +22,7 @@ class MainViewModel @Inject constructor(private val articleRepository: ArticleRe
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ result ->
                             liveData.value = result.channel!!.item
+                            Log.d("DATA",result.channel!!.item!!.size.toString())
                         }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
         )
     }
@@ -88,6 +89,7 @@ class MainViewModel @Inject constructor(private val articleRepository: ArticleRe
                 .subscribe(object : CompletableObserver {
                     override fun onComplete() {
                         Log.d("SUCCESS", "INSERT ARTICLE SUCCESSFUL")
+                        Log.d("WEB_OFF",article[0].guid)
                     }
 
                     override fun onSubscribe(d: Disposable) {
