@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.rssreader.base.BaseViewModel
 import com.example.rssreader.data.source.ArticleRepository
-import com.example.rssreader.data.source.model.Article
+import com.example.rssreader.data.source.model._24h.Article24h
 import io.reactivex.CompletableObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -12,7 +12,7 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class Main2ViewModel @Inject constructor(private val articleRepository: ArticleRepository) : BaseViewModel() {
-    var liveData = MutableLiveData<MutableList<Article>>()
+    var liveData = MutableLiveData<List<Article24h>>()
 
     fun getHomeArticles() {
         launchDisposable(
@@ -20,7 +20,7 @@ class Main2ViewModel @Inject constructor(private val articleRepository: ArticleR
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
-                    liveData.value = result.channel!!.item
+                    liveData.value = result.channel24h!!.item24h
                 }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
         )
     }
@@ -31,7 +31,7 @@ class Main2ViewModel @Inject constructor(private val articleRepository: ArticleR
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
-                    liveData.value = result.channel!!.item
+                    liveData.value = result.channel24h!!.item24h
                 }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
         )
     }
@@ -42,7 +42,7 @@ class Main2ViewModel @Inject constructor(private val articleRepository: ArticleR
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
-                    liveData.value = result.channel!!.item
+                    liveData.value = result.channel24h!!.item24h
                 }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
         )
     }
@@ -53,7 +53,7 @@ class Main2ViewModel @Inject constructor(private val articleRepository: ArticleR
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
-                    liveData.value = result.channel!!.item
+                    liveData.value = result.channel24h!!.item24h
                 }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
         )
     }
@@ -64,7 +64,7 @@ class Main2ViewModel @Inject constructor(private val articleRepository: ArticleR
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
-                    liveData.value = result.channel!!.item
+                    liveData.value = result.channel24h!!.item24h
                 }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
         )
     }
@@ -75,19 +75,19 @@ class Main2ViewModel @Inject constructor(private val articleRepository: ArticleR
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ result ->
-                    liveData.value = result.channel!!.item
+                    liveData.value = result.channel24h!!.item24h
                 }, { error -> Log.e("ERROR", error.localizedMessage.toString()) })
         )
     }
 
-    fun saveArticle(vararg article: Article) {
+    fun saveArticle(vararg article: Article24h) {
         articleRepository.saveArticle24h(*article)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : CompletableObserver {
                 override fun onComplete() {
                     Log.d("SUCCESS", "INSERT ARTICLE SUCCESSFUL")
-                    Log.d("WEB_OFF",article[0].guid)
+                    Log.d("WEB_OFF", article[0].guid)
                 }
 
                 override fun onSubscribe(d: Disposable) {

@@ -1,7 +1,9 @@
 package com.example.rssreader.data.source
 
-import com.example.rssreader.data.source.model.Article
-import com.example.rssreader.data.source.model.Feed
+import com.example.rssreader.data.source.model.VnExpress.Article
+import com.example.rssreader.data.source.model.VnExpress.Feed
+import com.example.rssreader.data.source.model._24h.Article24h
+import com.example.rssreader.data.source.model._24h.Feed24h
 import io.reactivex.Completable
 import io.reactivex.Flowable
 
@@ -34,43 +36,43 @@ class ArticleRepository(
         return remote.getEntertainmentArticles()
     }
 
-    override fun getHomeArticles24h(): Flowable<Feed> {
+    override fun getHomeArticles24h(): Flowable<Feed24h> {
         return remote.getHomeArticles24h()
     }
 
-    override fun getNewsArticles24h(): Flowable<Feed> {
+    override fun getNewsArticles24h(): Flowable<Feed24h> {
         return remote.getNewsArticles24h()
     }
 
-    override fun getWorldArticles24h(): Flowable<Feed> {
+    override fun getWorldArticles24h(): Flowable<Feed24h> {
         return remote.getWorldArticles24h()
     }
 
-    override fun getBusinessArticles24h(): Flowable<Feed> {
+    override fun getBusinessArticles24h(): Flowable<Feed24h> {
         return remote.getBusinessArticles24h()
     }
 
-    override fun getStartUpArticles24h(): Flowable<Feed> {
+    override fun getStartUpArticles24h(): Flowable<Feed24h> {
         return remote.getStartUpArticles24h()
     }
 
-    override fun getEntertainmentArticles24h(): Flowable<Feed> {
+    override fun getEntertainmentArticles24h(): Flowable<Feed24h> {
         return remote.getEntertainmentArticles24h()
     }
 
-    override fun saveArticle(vararg article: Article): Completable {
-        return local.saveArticle(*article)
+    override fun saveArticleVnExpress(vararg article: Article): Completable {
+        return local.saveArticleVnExpress(*article)
     }
 
-    override fun getLocalArticles(): Flowable<MutableList<Article>> {
-        return local.getLocalArticles()
+    override fun getLocalArticlesVnExpress(): Flowable<MutableList<Article>> {
+        return local.getLocalArticlesVnExpress()
     }
 
-    override fun saveArticle24h(vararg article: Article): Completable {
-        return local.saveArticle24h(*article)
+    override fun saveArticle24h(vararg article24h: Article24h): Completable {
+        return local.saveArticle24h(*article24h)
     }
 
-    override fun getLocalArticles24h(): Flowable<MutableList<Article>> {
+    override fun getLocalArticles24h(): Flowable<MutableList<Article24h>> {
         return local.getLocalArticles24h()
     }
 }

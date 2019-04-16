@@ -1,6 +1,6 @@
 package com.example.rssreader
 
-import com.example.rssreader.utils.di.component.DaggerAppComponent
+import com.example.rssreader.di.component.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 

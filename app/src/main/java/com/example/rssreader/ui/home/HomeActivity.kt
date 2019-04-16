@@ -6,7 +6,6 @@ import android.widget.Toast
 import com.example.rssreader.R
 import com.example.rssreader.base.BaseActivity
 import com.example.rssreader.ui.main.MainActivity
-import com.example.rssreader.ui.main2.Main2Activity
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : BaseActivity() {
@@ -23,10 +22,12 @@ class HomeActivity : BaseActivity() {
     private fun handleItemClick() {
         imageVnExpress.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("VN_EXPRESS", true)
             startActivity(intent)
         }
         image24h.setOnClickListener {
-            val intent = Intent(this, Main2Activity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("VN_EXPRESS", false)
             startActivity(intent)
         }
     }

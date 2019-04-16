@@ -1,4 +1,4 @@
-package com.example.rssreader.utils.di
+package com.example.rssreader.di
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

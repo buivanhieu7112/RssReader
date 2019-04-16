@@ -1,11 +1,11 @@
-package com.example.rssreader.utils.di.component
+package com.example.rssreader.di.component
 
 import android.app.Application
 import com.example.rssreader.MyApplication
-import com.example.rssreader.utils.di.modules.ActivityBuildersModule
-import com.example.rssreader.utils.di.modules.AppModule
-import com.example.rssreader.utils.di.modules.NetworkModule
-import com.example.rssreader.utils.di.modules.RepositoryModule
+import com.example.rssreader.di.modules.ActivityBuildersModule
+import com.example.rssreader.di.modules.AppModule
+import com.example.rssreader.di.modules.NetworkModule
+import com.example.rssreader.di.modules.RepositoryModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector

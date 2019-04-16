@@ -1,7 +1,9 @@
 package com.example.rssreader.data.source
 
-import com.example.rssreader.data.source.model.Article
-import com.example.rssreader.data.source.model.Feed
+import com.example.rssreader.data.source.model.VnExpress.Article
+import com.example.rssreader.data.source.model.VnExpress.Feed
+import com.example.rssreader.data.source.model._24h.Article24h
+import com.example.rssreader.data.source.model._24h.Feed24h
 import io.reactivex.Completable
 import io.reactivex.Flowable
 
@@ -19,26 +21,26 @@ interface ArticleDataSource {
 
         fun getEntertainmentArticles(): Flowable<Feed>
 
-        fun getHomeArticles24h(): Flowable<Feed>
+        fun getHomeArticles24h(): Flowable<Feed24h>
 
-        fun getNewsArticles24h(): Flowable<Feed>
+        fun getNewsArticles24h(): Flowable<Feed24h>
 
-        fun getWorldArticles24h(): Flowable<Feed>
+        fun getWorldArticles24h(): Flowable<Feed24h>
 
-        fun getBusinessArticles24h(): Flowable<Feed>
+        fun getBusinessArticles24h(): Flowable<Feed24h>
 
-        fun getStartUpArticles24h(): Flowable<Feed>
+        fun getStartUpArticles24h(): Flowable<Feed24h>
 
-        fun getEntertainmentArticles24h(): Flowable<Feed>
+        fun getEntertainmentArticles24h(): Flowable<Feed24h>
     }
 
     interface Local {
-        fun saveArticle(vararg article: Article): Completable
+        fun saveArticleVnExpress(vararg article: Article): Completable
 
-        fun getLocalArticles(): Flowable<MutableList<Article>>
+        fun getLocalArticlesVnExpress(): Flowable<MutableList<Article>>
 
-        fun saveArticle24h(vararg article: Article): Completable
+        fun saveArticle24h(vararg article24h: Article24h): Completable
 
-        fun getLocalArticles24h(): Flowable<MutableList<Article>>
+        fun getLocalArticles24h(): Flowable<MutableList<Article24h>>
     }
 }

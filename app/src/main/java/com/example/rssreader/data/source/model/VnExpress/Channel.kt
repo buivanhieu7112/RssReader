@@ -1,4 +1,4 @@
-package com.example.rssreader.data.source.model
+package com.example.rssreader.data.source.model.VnExpress
 
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root

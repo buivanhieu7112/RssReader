@@ -1,4 +1,4 @@
-package com.example.rssreader.utils.di.modules
+package com.example.rssreader.di.modules
 
 import com.example.rssreader.ui.home.HomeActivity
 import com.example.rssreader.ui.main.MainActivity

@@ -1,4 +1,4 @@
-package com.example.rssreader.utils.di.modules
+package com.example.rssreader.di.modules
 
 import com.example.rssreader.data.source.remote.Api24h
 import com.example.rssreader.data.source.remote.ApiVnExpress

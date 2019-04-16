@@ -14,22 +14,25 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rssreader.R
 import com.example.rssreader.base.BaseActivity
-import com.example.rssreader.data.source.model.Article
+import com.example.rssreader.data.source.model.VnExpress.Article
+import com.example.rssreader.data.source.model._24h.Article24h
 import com.example.rssreader.ui.WebView24h
-import com.example.rssreader.ui.main.ArticleAdapter
 import com.example.rssreader.utils.ItemClickListener
 import com.example.rssreader.utils.ItemContextMenuClickListener
 import com.google.android.material.snackbar.Snackbar
 import com.koushikdutta.ion.Ion
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.*
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStreamWriter
 
 
 class Main2Activity : BaseActivity(), ItemClickListener, ItemContextMenuClickListener {
     private var isOnline = true
     private var itemOffline = false
     private lateinit var viewModel: Main2ViewModel
-    private var articleAdapter = ArticleAdapter(this, this)
+    private var articleAdapter = Article24hAdapter(this, this)
 
     override fun setUpView() {
         setContentView(R.layout.activity_main)
@@ -144,25 +147,38 @@ class Main2Activity : BaseActivity(), ItemClickListener, ItemContextMenuClickLis
     }
 
     override fun onItemClicked(article: Article) {
-        val intent = Intent(this, WebView24h::class.java)
-        intent.putExtra("ONLINE", isOnline)
-        intent.putExtra("ITEM_OFFLINE", itemOffline)
-        intent.putExtra("KEY_ARTICLE", article.link)
-        intent.putExtra("KEY_ARTICLE_OFFLINE", article.guid)
-        intent.putExtra("KEY_ARTICLE_ID", article.id)
-        startActivity(intent)
+//        val intent = Intent(this, WebView24h::class.java)
+//        intent.putExtra("ONLINE", isOnline)
+//        intent.putExtra("ITEM_OFFLINE", itemOffline)
+//        intent.putExtra("KEY_ARTICLE", article.link)
+//        intent.putExtra("KEY_ARTICLE_OFFLINE", article.guid)
+//        intent.putExtra("KEY_ARTICLE_ID", article.id)
+//        startActivity(intent)
     }
 
     override fun onItemContextMenuClick(article: Article) {
-        saveArticle(article)
+//        saveArticle(article)
     }
 
-    private fun saveArticle(article: Article) {
+    override fun onItem24hClicked(article24h: Article24h) {
+        val intent = Intent(this, WebView24h::class.java)
+        intent.putExtra("ONLINE", isOnline)
+        intent.putExtra("ITEM_OFFLINE", itemOffline)
+        intent.putExtra("KEY_ARTICLE", article24h.link)
+        intent.putExtra("KEY_ARTICLE_OFFLINE", article24h.guid)
+        intent.putExtra("KEY_ARTICLE_ID", article24h.id)
+        startActivity(intent)
+    }
+
+    override fun onItemContextMenu24hClick(article24h: Article24h) {
+        saveArticle(article24h)
+    }
+
+    private fun saveArticle(article: Article24h) {
         Ion.with(applicationContext)
             .load(article.link).asString()
             .setCallback { e, result ->
                 // save web content html
-//                article.guid = result.substring(34)
                 article.guid = createFileSaveWeb(this, "${article.id}.html", result.substring(34))
                 // save to db
                 viewModel.saveArticle(article)

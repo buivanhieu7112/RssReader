@@ -60,6 +60,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <WebView
+            android:visibility="gone"
+            android:id="@+id/webViewVnExpress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"

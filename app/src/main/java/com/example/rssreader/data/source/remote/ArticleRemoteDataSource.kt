@@ -1,7 +1,8 @@
 package com.example.rssreader.data.source.remote
 
 import com.example.rssreader.data.source.ArticleDataSource
-import com.example.rssreader.data.source.model.Feed
+import com.example.rssreader.data.source.model.VnExpress.Feed
+import com.example.rssreader.data.source.model._24h.Feed24h
 import io.reactivex.Flowable
 import javax.inject.Inject
 
@@ -10,50 +11,50 @@ class ArticleRemoteDataSource @Inject constructor(
     private val api24h: Api24h
 ) : ArticleDataSource.Remote {
     override fun getHomeArticles(): Flowable<Feed> {
-        return apiVnExpress.articles
+        return apiVnExpress.articlesVnExpress
     }
 
     override fun getNewsArticles(): Flowable<Feed> {
-        return apiVnExpress.news
+        return apiVnExpress.newsVnExpress
     }
 
     override fun getWorldArticles(): Flowable<Feed> {
-        return apiVnExpress.world
+        return apiVnExpress.worldVnExpress
     }
 
     override fun getBusinessArticles(): Flowable<Feed> {
-        return apiVnExpress.business
+        return apiVnExpress.businessVnExpress
     }
 
     override fun getStartUpArticles(): Flowable<Feed> {
-        return apiVnExpress.startup
+        return apiVnExpress.startupVnExpress
     }
 
     override fun getEntertainmentArticles(): Flowable<Feed> {
-        return apiVnExpress.entertainment
+        return apiVnExpress.entertainmentVnExpress
     }
 
-    override fun getHomeArticles24h(): Flowable<Feed> {
-        return api24h.articles
+    override fun getHomeArticles24h(): Flowable<Feed24h> {
+        return api24h.articles24h
     }
 
-    override fun getNewsArticles24h(): Flowable<Feed> {
-        return api24h.news
+    override fun getNewsArticles24h(): Flowable<Feed24h> {
+        return api24h.news24h
     }
 
-    override fun getWorldArticles24h(): Flowable<Feed> {
-        return api24h.world
+    override fun getWorldArticles24h(): Flowable<Feed24h> {
+        return api24h.world24h
     }
 
-    override fun getBusinessArticles24h(): Flowable<Feed> {
-        return api24h.business
+    override fun getBusinessArticles24h(): Flowable<Feed24h> {
+        return api24h.business24h
     }
 
-    override fun getStartUpArticles24h(): Flowable<Feed> {
-        return api24h.startup
+    override fun getStartUpArticles24h(): Flowable<Feed24h> {
+        return api24h.startup24h
     }
 
-    override fun getEntertainmentArticles24h(): Flowable<Feed> {
-        return api24h.entertainment
+    override fun getEntertainmentArticles24h(): Flowable<Feed24h> {
+        return api24h.entertainment24h
     }
 }

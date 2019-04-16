@@ -1,25 +1,26 @@
 package com.example.rssreader.data.source.remote
 
-import com.example.rssreader.data.source.model.Feed
+import com.example.rssreader.data.source.model._24h.Feed24h
+import com.example.rssreader.utils.Constant
 import io.reactivex.Flowable
 import retrofit2.http.GET
 
 interface Api24h {
-    @get:GET("/upload/rss/trangchu24h.rss")
-    var articles: Flowable<Feed>
+    @get:GET(Constant.Home24h)
+    var articles24h: Flowable<Feed24h>
 
-    @get:GET("/upload/rss/tintuctrongngay.rss")
-    var news: Flowable<Feed>
+    @get:GET(Constant.News24h)
+    var news24h: Flowable<Feed24h>
 
-    @get:GET("/upload/rss/bantrecuocsong.rss")
-    var world: Flowable<Feed>
+    @get:GET(Constant.World24h)
+    var world24h: Flowable<Feed24h>
 
-    @get:GET("/upload/rss/taichinhbatdongsan.rss")
-    var business: Flowable<Feed>
+    @get:GET(Constant.Business24h)
+    var business24h: Flowable<Feed24h>
 
-    @get:GET("/upload/rss/giaoducduhoc.rss")
-    var startup: Flowable<Feed>
+    @get:GET(Constant.Startup24h)
+    var startup24h: Flowable<Feed24h>
 
-    @get:GET("/upload/rss/cuoi24h.rss")
-    var entertainment: Flowable<Feed>
+    @get:GET(Constant.Entertainment24h)
+    var entertainment24h: Flowable<Feed24h>
 }

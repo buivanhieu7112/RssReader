@@ -1,10 +1,10 @@
-package com.example.rssreader.data.source.model
+package com.example.rssreader.data.source.model._24h
 
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.Root
 
 @Root(name = "rss", strict = false)
-class Feed {
+class Feed24h {
     @field:Element(name = "channel")
-    var channel: Channel? = null
+    var channel24h: Channel24h? = null
 }
