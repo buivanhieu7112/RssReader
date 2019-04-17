@@ -16,6 +16,9 @@ import com.example.rssreader.R
 import com.example.rssreader.base.BaseActivity
 import com.example.rssreader.data.source.model.Article
 import com.example.rssreader.utils.Constant
+import com.example.rssreader.utils.Constant.ENCODING
+import com.example.rssreader.utils.Constant.KEY_WEB_KIND
+import com.example.rssreader.utils.Constant.MIME_TYPE
 import com.example.rssreader.utils.ItemClickListener
 import com.example.rssreader.utils.ItemContextMenuClickListener
 import com.example.rssreader.utils.Kind
@@ -35,7 +38,7 @@ class MainActivity : BaseActivity(), ItemClickListener, ItemContextMenuClickList
         setContentView(R.layout.activity_main)
         setUpToolbar()
         navigationItemClick()
-        kind = Kind.from(intent.getIntExtra("KIND_WEB", 0))
+        kind = Kind.from(intent.getIntExtra(KEY_WEB_KIND, 0))
     }
 
     private fun setUpToolbar() {
@@ -142,14 +145,14 @@ class MainActivity : BaseActivity(), ItemClickListener, ItemContextMenuClickList
                 webViewLayout.loadUrl(article.link)
             } else {
                 when (kind) {
-                    Kind.KIND_VN_EXPRESS -> webViewLayout.loadData(article.guid, "text/html", "UTF-8")
-                    Kind.KIND_24H -> webViewLayout.loadData(readFile(this, "${article.id}.html"), "text/html", "UTF-8")
+                    Kind.KIND_VN_EXPRESS -> webViewLayout.loadData(article.guid, MIME_TYPE, ENCODING)
+                    Kind.KIND_24H -> webViewLayout.loadData(readFile(this, "${article.id}.html"), MIME_TYPE, ENCODING)
                 }
             }
         } else {
             when (kind) {
-                Kind.KIND_VN_EXPRESS -> webViewLayout.loadData(article.guid, "text/html", "UTF-8")
-                Kind.KIND_24H -> webViewLayout.loadData(readFile(this, "${article.id}.html"), "text/html", "UTF-8")
+                Kind.KIND_VN_EXPRESS -> webViewLayout.loadData(article.guid, MIME_TYPE, ENCODING)
+                Kind.KIND_24H -> webViewLayout.loadData(readFile(this, "${article.id}.html"), MIME_TYPE, ENCODING)
             }
         }
     }
@@ -248,7 +251,7 @@ class MainActivity : BaseActivity(), ItemClickListener, ItemContextMenuClickList
             recyclerView.visibility = View.VISIBLE
         } else {
             if (!isItemOffline) {
-                Snackbar.make(layoutMain, "No connection. You're offline", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(layoutMain, R.string.no_connection, Snackbar.LENGTH_SHORT).show()
                 recyclerView.visibility = View.GONE
                 imageViewOffline.visibility = View.VISIBLE
             } else {

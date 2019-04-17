@@ -15,9 +15,6 @@ class ArticleLocalDataSource @Inject constructor(private val articleDatabase: Ar
     }
 
     override fun getLocalArticles(kind: Kind): Flowable<MutableList<Article>> {
-        return when (kind) {
-            Kind.KIND_VN_EXPRESS -> articleDatabase.articleDao().getArticlesVnExpress()
-            Kind.KIND_24H -> articleDatabase.articleDao().getArticles24h()
-        }
+        return articleDatabase.articleDao().getArticles(kind.value)
     }
 }

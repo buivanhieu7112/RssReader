@@ -17,4 +17,8 @@ object Constant {
     const val Business24h = "/upload/rss/taichinhbatdongsan.rss"
     const val Startup24h = "/upload/rss/giaoducduhoc.rss"
     const val Entertainment24h = "/upload/rss/cuoi24h.rss"
+
+    const val KEY_WEB_KIND = "WEB_KIND"
+    const val MIME_TYPE = "text/html"
+    const val ENCODING = "UTF-8"
 }

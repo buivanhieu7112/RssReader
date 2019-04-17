@@ -13,7 +13,7 @@ class ArticleRemoteDataSource @Inject constructor(
     override fun getNewsArticles(url: String?, kind: Kind): Flowable<Feed> {
         return when (kind) {
             Kind.KIND_VN_EXPRESS -> apiVnExpress.newsArticle(url)
-            Kind.KIND_24H -> api24h.newsArticle24h(url)
+            Kind.KIND_24H -> api24h.newsArticle(url)
         }
     }
 }

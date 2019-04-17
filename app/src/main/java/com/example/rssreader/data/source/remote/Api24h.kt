@@ -7,5 +7,5 @@ import retrofit2.http.Path
 
 interface Api24h {
     @GET("{url}")
-    fun newsArticle24h(@Path("url") url: String?): Flowable<Feed>
+    fun newsArticle(@Path("url") url: String?): Flowable<Feed>
 }

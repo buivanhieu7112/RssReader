@@ -8,4 +8,5 @@
     <string name="entertainment">Entertainment</string>
     <string name="logout">Return</string>
     <string name="news_offline">Offline news</string>
+    <string name="no_connection">No connection. You are offline</string>
 </resources>
