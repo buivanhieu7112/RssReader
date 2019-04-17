@@ -20,8 +20,6 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.WebView"/>
-        <activity android:name=".ui.WebView24h"/>
         <activity android:name=".ui.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -30,7 +28,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.main.MainActivity"/>
-        <activity android:name=".ui.main2.Main2Activity"/>
     </application>
 
 </manifest>

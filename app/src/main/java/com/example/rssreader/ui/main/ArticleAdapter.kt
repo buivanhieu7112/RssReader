@@ -6,11 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.rssreader.R
 import com.example.rssreader.base.BaseViewHolder
+import com.example.rssreader.data.source.model.Article
 import com.example.rssreader.data.source.model.RecyclerViewItem
-import com.example.rssreader.data.source.model.TYPE_ARTICLE
-import com.example.rssreader.data.source.model.TYPE_ARTICLE_24
-import com.example.rssreader.data.source.model.VnExpress.Article
-import com.example.rssreader.data.source.model._24h.Article24h
+import com.example.rssreader.data.source.model.TYPE_ARTICLE_24H
+import com.example.rssreader.data.source.model.TYPE_ARTICLE_VN_EXPRESS
 import com.example.rssreader.utils.ItemClickListener
 import com.example.rssreader.utils.ItemContextMenuClickListener
 import kotlinx.android.synthetic.main.adapter_article.view.*
@@ -32,14 +31,14 @@ class ArticleAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<RecyclerViewItem> {
         return when (viewType) {
-            TYPE_ARTICLE -> {
+            TYPE_ARTICLE_VN_EXPRESS -> {
                 ArticleViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.adapter_article, parent, false),
                     itemClickListener,
                     itemMenuClickListener
                 )
             }
-            TYPE_ARTICLE_24 -> {
+            TYPE_ARTICLE_24H -> {
                 Article24hViewHolder(
                     LayoutInflater.from(parent.context).inflate(R.layout.adapter_article, parent, false),
                     itemClickListener,
@@ -111,7 +110,7 @@ class ArticleAdapter(
         val itemMenuClickListener: ItemContextMenuClickListener
     ) :
         BaseViewHolder<RecyclerViewItem>(itemView), View.OnCreateContextMenuListener {
-        private lateinit var article24h: Article24h
+        private lateinit var article: Article
 
         init {
             itemView.setOnCreateContextMenuListener(this)
@@ -122,8 +121,8 @@ class ArticleAdapter(
             val cancel: MenuItem = menu.add(Menu.NONE, 2, 2, "Cancel")
             save.setOnMenuItemClickListener(object : MenuItem.OnMenuItemClickListener {
                 override fun onMenuItemClick(item: MenuItem?): Boolean {
-                    Log.d("CONTEXT_MENU", "save ${article24h.link}")
-                    itemMenuClickListener.onItemContextMenu24hClick(article24h)
+                    Log.d("CONTEXT_MENU", "save ${article.link}")
+                    itemMenuClickListener.onItemContextMenuClick(article)
                     return true
                 }
             })
@@ -137,12 +136,12 @@ class ArticleAdapter(
 
         override fun bind(item: RecyclerViewItem) {
             super.bind(item)
-            this.article24h = item as Article24h
-            itemView.textViewTitle.text = article24h.title
-            itemView.textViewPubDate.text = article24h.pubDate
+            this.article = item as Article
+            itemView.textViewTitle.text = article.title
+            itemView.textViewPubDate.text = article.pubDate
             itemView.setOnClickListener {
-                article24h.let {
-                    itemClickListener.onItem24hClicked(it)
+                article.let {
+                    itemClickListener.onItemClicked(it)
                 }
             }
         }

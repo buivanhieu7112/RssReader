@@ -62,7 +62,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
     <WebView
             android:visibility="gone"
-            android:id="@+id/webViewVnExpress"
+            android:id="@+id/webViewLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

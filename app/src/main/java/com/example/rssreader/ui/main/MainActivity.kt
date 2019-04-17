@@ -14,10 +14,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.rssreader.R
 import com.example.rssreader.base.BaseActivity
-import com.example.rssreader.data.source.model.VnExpress.Article
-import com.example.rssreader.data.source.model._24h.Article24h
+import com.example.rssreader.data.source.model.Article
+import com.example.rssreader.utils.Constant
 import com.example.rssreader.utils.ItemClickListener
 import com.example.rssreader.utils.ItemContextMenuClickListener
+import com.example.rssreader.utils.Kind
 import com.google.android.material.snackbar.Snackbar
 import com.koushikdutta.ion.Ion
 import kotlinx.android.synthetic.main.activity_main.*
@@ -25,8 +26,8 @@ import java.io.*
 
 class MainActivity : BaseActivity(), ItemClickListener, ItemContextMenuClickListener {
     private var isOnline = true
-    private var itemOffline = false
-    private var isVnExpress = true
+    private var isItemOffline = false
+    private var kind: Kind = Kind.KIND_VN_EXPRESS
     private lateinit var viewModel: MainViewModel
     private var articleAdapter = ArticleAdapter(this, this)
 
@@ -34,103 +35,70 @@ class MainActivity : BaseActivity(), ItemClickListener, ItemContextMenuClickList
         setContentView(R.layout.activity_main)
         setUpToolbar()
         navigationItemClick()
-        isVnExpress = intent.getBooleanExtra("VN_EXPRESS", true)
+        kind = Kind.from(intent.getIntExtra("KIND_WEB", 0))
     }
 
     private fun setUpToolbar() {
         setSupportActionBar(toolbar)
         val actionBar = supportActionBar
-        actionBar!!.setDisplayHomeAsUpEnabled(true)
-        actionBar.setHomeAsUpIndicator(com.example.rssreader.R.drawable.ic_menu)
-        actionBar.title = getString(R.string.home)
+        actionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(com.example.rssreader.R.drawable.ic_menu)
+            title = getString(R.string.home)
+        }
+    }
+
+    private fun handleItemNavigation(itemOffline: Boolean, urlVnExpress: String?, url24h: String?, title: Int) {
+        isItemOffline = itemOffline
+        checkInternetConnectionAndHandle()
+        if (!itemOffline) {
+            when (kind) {
+                Kind.KIND_VN_EXPRESS -> viewModel.getNewsArticles(urlVnExpress, Kind.KIND_VN_EXPRESS)
+                Kind.KIND_24H -> viewModel.getNewsArticles(url24h, Kind.KIND_24H)
+            }
+        } else {
+            isOnline = false
+            imageViewOffline.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
+            when (kind) {
+                Kind.KIND_VN_EXPRESS -> viewModel.getLocalArticles(Kind.KIND_VN_EXPRESS)
+                Kind.KIND_24H -> viewModel.getLocalArticles(Kind.KIND_24H)
+            }
+        }
+        toolbar.title = getString(title)
+        drawerLayout.closeDrawers()
     }
 
     private fun navigationItemClick() {
-        // set item as selected to persist highlight
         navigationView.menu.getItem(0).isChecked = true
         navigationView.setNavigationItemSelectedListener { menuItem ->
             textViewEmpty.visibility = View.GONE
             when (menuItem.itemId) {
                 R.id.home -> {
-                    itemOffline = false
-                    checkInternetConnectionAndHandle()
-                    if (isVnExpress) {
-                        viewModel.getHomeArticles()
-                    } else {
-                        viewModel.getHomeArticles24h()
-                    }
-                    toolbar.title = getString(R.string.home)
-                    // close drawer when item is tapped
-                    drawerLayout.closeDrawers()
+                    handleItemNavigation(false, Constant.HomeVnExpress, Constant.Home24h, R.string.home)
                 }
                 R.id.news -> {
-                    itemOffline = false
-                    checkInternetConnectionAndHandle()
-                    if (isVnExpress) {
-                        viewModel.getNewsArticles()
-                    } else {
-                        viewModel.getNewsArticles24h()
-                    }
-                    toolbar.title = getString(R.string.news)
-                    drawerLayout.closeDrawers()
+                    handleItemNavigation(false, Constant.NewsVnExpress, Constant.News24h, R.string.news)
                 }
                 R.id.world -> {
-                    itemOffline = false
-                    checkInternetConnectionAndHandle()
-                    if (isVnExpress) {
-                        viewModel.getWorldArticles()
-                    } else {
-                        viewModel.getWorldArticles24h()
-                    }
-                    toolbar.title = getString(R.string.world)
-                    drawerLayout.closeDrawers()
+                    handleItemNavigation(false, Constant.WorldVnExpress, Constant.World24h, R.string.world)
                 }
                 R.id.business -> {
-                    itemOffline = false
-                    checkInternetConnectionAndHandle()
-                    if (isVnExpress) {
-                        viewModel.getBusinessArticles()
-                    } else {
-                        viewModel.getBusinessArticles24h()
-                    }
-                    toolbar.title = getString(R.string.business)
-                    drawerLayout.closeDrawers()
+                    handleItemNavigation(false, Constant.BusinessVnExpress, Constant.Business24h, R.string.business)
                 }
                 R.id.startup -> {
-                    itemOffline = false
-                    checkInternetConnectionAndHandle()
-                    if (isVnExpress) {
-                        viewModel.getStartUpArticles()
-                    } else {
-                        viewModel.getStartUpArticles24h()
-                    }
-                    toolbar.title = getString(R.string.startup)
-                    drawerLayout.closeDrawers()
+                    handleItemNavigation(false, Constant.StartupVnExpress, Constant.Startup24h, R.string.startup)
                 }
                 R.id.entertainment -> {
-                    itemOffline = false
-                    checkInternetConnectionAndHandle()
-                    if (isVnExpress) {
-                        viewModel.getEntertainmentArticles()
-                    } else {
-                        viewModel.getEntertainmentArticles24h()
-                    }
-                    toolbar.title = getString(R.string.entertainment)
-                    drawerLayout.closeDrawers()
+                    handleItemNavigation(
+                        false,
+                        Constant.EntertainmentVnExpress,
+                        Constant.Entertainment24h,
+                        R.string.entertainment
+                    )
                 }
                 R.id.offline -> {
-                    isOnline = false
-                    itemOffline = true
-                    checkInternetConnectionAndHandle()
-                    imageViewOffline.visibility = View.GONE
-                    recyclerView.visibility = View.VISIBLE
-                    if (isVnExpress) {
-                        viewModel.getLocalArticles()
-                    } else {
-                        viewModel.getLocalArticles24h()
-                    }
-                    toolbar.title = getString(R.string.news_offline)
-                    drawerLayout.closeDrawers()
+                    handleItemNavigation(true, null, null, R.string.news_offline)
                 }
                 R.id.logout -> {
                     finish()
@@ -148,10 +116,9 @@ class MainActivity : BaseActivity(), ItemClickListener, ItemContextMenuClickList
     private fun initData() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
         recyclerView.adapter = articleAdapter
-        if (isVnExpress) {
-            viewModel.getHomeArticles()
-        } else {
-            viewModel.getHomeArticles24h()
+        when (kind) {
+            Kind.KIND_VN_EXPRESS -> viewModel.getNewsArticles(Constant.HomeVnExpress, Kind.KIND_VN_EXPRESS)
+            Kind.KIND_24H -> viewModel.getNewsArticles(Constant.Home24h, Kind.KIND_24H)
         }
         val dividerItemDecoration = DividerItemDecoration(recyclerView.context, LinearLayoutManager.VERTICAL)
         recyclerView.addItemDecoration(dividerItemDecoration)
@@ -168,41 +135,32 @@ class MainActivity : BaseActivity(), ItemClickListener, ItemContextMenuClickList
         })
     }
 
-    private fun showWebViewVnExpress(article: Article) {
-        webViewVnExpress.visibility = View.VISIBLE
+    private fun showWebView(article: Article) {
+        webViewLayout.visibility = View.VISIBLE
         if (isOnline) {
-            if (!itemOffline) {
-                webViewVnExpress.loadUrl(article.link)
+            if (!isItemOffline) {
+                webViewLayout.loadUrl(article.link)
             } else {
-                webViewVnExpress.loadData(article.guid, "text/html", "UTF-8")
+                when (kind) {
+                    Kind.KIND_VN_EXPRESS -> webViewLayout.loadData(article.guid, "text/html", "UTF-8")
+                    Kind.KIND_24H -> webViewLayout.loadData(readFile(this, "${article.id}.html"), "text/html", "UTF-8")
+                }
             }
         } else {
-            webViewVnExpress.loadDataWithBaseURL(article.link, article.guid, "text/html", "UTF-8", null)
-        }
-    }
-
-    private fun showWebView24h(article24h: Article24h) {
-        webViewVnExpress.visibility = View.VISIBLE
-        if (isOnline) {
-            if (!itemOffline) {
-                webViewVnExpress.loadUrl(article24h.link)
-            } else {
-                webViewVnExpress.loadData(readFile(this, "${article24h.id}.html"), "text/html", "UTF-8")
+            when (kind) {
+                Kind.KIND_VN_EXPRESS -> webViewLayout.loadData(article.guid, "text/html", "UTF-8")
+                Kind.KIND_24H -> webViewLayout.loadData(readFile(this, "${article.id}.html"), "text/html", "UTF-8")
             }
-        } else {
-            webViewVnExpress.loadData(readFile(this, "${article24h.id}.html"), "text/html", "UTF-8")
         }
     }
 
     private fun readFile(context: Context, fileName: String): String {
         val fileInputStream = context.openFileInput(fileName)
         val retBuf = StringBuffer()
-
         try {
             if (fileInputStream != null) {
                 val inputStreamReader = InputStreamReader(fileInputStream)
                 val bufferedReader = BufferedReader(inputStreamReader)
-
                 var lineData = bufferedReader.readLine()
                 while (lineData != null) {
                     retBuf.append(lineData)
@@ -210,69 +168,67 @@ class MainActivity : BaseActivity(), ItemClickListener, ItemContextMenuClickList
                 }
             }
         } catch (ex: IOException) {
+            ex.printStackTrace()
         } finally {
-            fileInputStream!!.close()
+            fileInputStream?.close()
             return retBuf.toString()
         }
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
+        when (item?.itemId) {
             android.R.id.home -> drawerLayout.openDrawer(GravityCompat.START)
         }
         return super.onOptionsItemSelected(item)
     }
 
     override fun onItemClicked(article: Article) {
-        showWebViewVnExpress(article)
+        showWebView(article)
     }
 
     override fun onItemContextMenuClick(article: Article) {
-        saveArticleVnExpress(article)
+        saveArticle(article)
     }
 
-    override fun onItem24hClicked(article24h: Article24h) {
-        showWebView24h(article24h)
-    }
-
-    override fun onItemContextMenu24hClick(article24h: Article24h) {
-        saveArticle24h(article24h)
-    }
-
-    private fun saveArticleVnExpress(article: Article) {
+    private fun saveArticle(article: Article) {
         Ion.with(applicationContext)
             .load(article.link).asString()
             .setCallback { e, result ->
                 // save web content html
-                article.guid = result
+                when (kind) {
+                    Kind.KIND_VN_EXPRESS -> {
+                        article.guid = result
+                        article.kind = Kind.KIND_VN_EXPRESS.value
+                    }
+                    Kind.KIND_24H -> {
+                        article.guid = createFileSaveWeb(this, "${article.id}.html", result.substring(34))
+                        article.kind = Kind.KIND_24H.value
+                    }
+                }
                 // save to db
                 viewModel.saveArticle(article)
             }
     }
 
-    private fun saveArticle24h(article24h: Article24h) {
-        Ion.with(applicationContext)
-            .load(article24h.link).asString()
-            .setCallback { e, result ->
-                // save web content html
-                article24h.guid = createFileSaveWeb(this, "${article24h.id}.html", result.substring(34))
-                // save to db
-                viewModel.saveArticle24h(article24h)
-            }
-    }
-
     // save web content html to file
     private fun createFileSaveWeb(context: Context, fileName: String, fileData: String): String {
+        var pathFile = ""
         val file = File(filesDir, fileName)
         val fileOutputStream = FileOutputStream(file)
-        val outputStreamWriter = OutputStreamWriter(fileOutputStream)
-        val bufferedWriter = BufferedWriter(outputStreamWriter)
-        bufferedWriter.write(fileData)
-        bufferedWriter.flush()
-        val path = context.filesDir
-        Log.d("FILE", "$path/$fileName")
-        return "$path/$fileName"
+        try {
+            val outputStreamWriter = OutputStreamWriter(fileOutputStream)
+            val bufferedWriter = BufferedWriter(outputStreamWriter)
+            bufferedWriter.write(fileData)
+            bufferedWriter.flush()
+            val path = context.filesDir
+            Log.d("FILE", "$path/$fileName")
+            pathFile = "$path/$fileName"
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            fileOutputStream.close()
+        }
+        return pathFile
     }
 
     override fun onResume() {
@@ -291,7 +247,7 @@ class MainActivity : BaseActivity(), ItemClickListener, ItemContextMenuClickList
             imageViewOffline.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
         } else {
-            if (!itemOffline) {
+            if (!isItemOffline) {
                 Snackbar.make(layoutMain, "No connection. You're offline", Snackbar.LENGTH_SHORT).show()
                 recyclerView.visibility = View.GONE
                 imageViewOffline.visibility = View.VISIBLE
@@ -304,9 +260,9 @@ class MainActivity : BaseActivity(), ItemClickListener, ItemContextMenuClickList
     }
 
     override fun onBackPressed() {
-        if (webViewVnExpress.isVisible) {
-            webViewVnExpress.clearCache(true)
-            webViewVnExpress.visibility = View.GONE
+        if (webViewLayout.isVisible) {
+            webViewLayout.clearCache(true)
+            webViewLayout.visibility = View.GONE
         } else {
             super.onBackPressed()
         }
